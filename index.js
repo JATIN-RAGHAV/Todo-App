@@ -66,7 +66,6 @@ const renderTodos = () => {
 const createTodo = (s) => {
   // Creating the elements that will be used
   const [count, todo] = s.split(countSep);
-  console.log();
   let containerDiv = document.createElement("div");
   let spanEle = document.createElement("span");
   let completedCheckbox = document.createElement("input");
@@ -126,6 +125,7 @@ let returnEdit = (id) => {
   saveButton.textContent = 'Save';
   saveButton.setAttribute('onclick',`handleSave(${id})`);
   discardButton.textContent = 'Discard';
+  discardButton.setAttribute('onclick',`handleDiscard(${id},${todo})`);
 
   // Returning elements as members of a list
   return [editField, saveButton, discardButton]
@@ -134,23 +134,28 @@ let returnEdit = (id) => {
 // Function to edit a todo
 const editTodo = (id) => {
   // Getting updated todo text
-  let todo = document.getElementById(id);
-  todo = todo.querySelector('input')
-  todo = todo.value;
+  let newTodo = document.getElementById(id);
+  newTodo = newTodo.querySelector('input')
+  newTodo = newTodo.value;
 
   // Setting the new todo in the locaStorage;
   let todos = localStorage.getItem("todos");
   todos = todos.split(todoSep);
-  todos.map(todo => {
+  console.log()
+  console.log(`Todo before edit     ${todos}`)
+  todos = todos.map(todo => {
+    console.log(todo.split(countSep))
     if(todo.split(countSep)[0] == id){
-      return id+countSep+todo;
+      console.log(`inside todo ${id}  ${newTodo}`)
+      return id+countSep+newTodo;
     }
-    return todo;
+    return todo
   })
+  console.log(`Todo after edit     ${todos}`)
   todos = todos.join(todoSep);
   localStorage.setItem('todos', todos)
   // Return todo in the end for further use
-  return todo;
+  return newTodo;
 }
 
 // Function to handle when edit button is clicked
@@ -175,13 +180,23 @@ const handleSave = (id) =>{
   // Creating new todo and replacing the edit card with the todocard
   const todoCard = createTodo(id+countSep+todoString);
   let todoCardDOM = document.getElementById(id);
-  todoCardDOM.innerHTML = '';
-  console.log(todoCard)
-  todoCardArray = todoCard.querySelectorAll('*');
-  console.log(todoCardArray[0])
-  todoCardDOM.appendChild(todoCardArray[0]);
-  todoCardDOM.appendChild(todoCardArray[1]);
-  todoCardDOM.appendChild(todoCardArray[2]);
-  todoCardDOM.appendChild(todoCardArray[3]);
+  editToTodo(todoCardDOM, todoCard);
 }
 
+// Function to handle discardButton
+const handleDiscard = (n,s) =>{
+  // Get todo Card and edit card
+  let todoCard = createTodo(n+countSep+s);
+  let todoCardDom = document.getElementById(n);
+  editToTodo(todoCardDom, todoCard);
+}
+
+// Function to replace edit card with the give todo card
+const editToTodo = (edit, todo)=>{
+  edit.innerHTML = '';
+  todoCardArray = todo.querySelectorAll('*');
+  edit.appendChild(todoCardArray[0]);
+  edit.appendChild(todoCardArray[1]);
+  edit.appendChild(todoCardArray[2]);
+  edit.appendChild(todoCardArray[3]);
+}
