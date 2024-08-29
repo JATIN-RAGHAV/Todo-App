@@ -125,7 +125,7 @@ let returnEdit = (id) => {
   saveButton.textContent = "Save";
   saveButton.setAttribute("onclick", `handleSave(${id})`);
   discardButton.textContent = "Discard";
-  discardButton.setAttribute("onclick", `handleDiscard(${id},${todo})`);
+  discardButton.setAttribute("onclick", `handleDiscard(${id},"${todo}")`);
 
   // Returning elements as members of a list
   return [editField, saveButton, discardButton];
