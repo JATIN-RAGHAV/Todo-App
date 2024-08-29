@@ -75,7 +75,7 @@ const createTodo = (s) => {
   spanEle.textContent = count + " · " + todo;
   completedCheckbox.setAttribute("type", "checkbox");
   editButton.textContent = "Edit";
-  editButton.setAttribute("onclick",`handleEdit(${count})`);
+  editButton.setAttribute("onclick", `handleEdit(${count})`);
   deleteButton.textContent = "Delete";
   deleteButton.setAttribute("onclick", `deleteTodo(${count})`);
   containerDiv.setAttribute("id", count);
@@ -110,10 +110,10 @@ inputEle.addEventListener("keydown", (event) => {
 
 // Function that returns an editing div, returns an array of elements to be added in a edit card
 let returnEdit = (id) => {
-  // Getting todo 
+  // Getting todo
   let todo = document.getElementById(id);
-  todo = todo.querySelector('span');
-  todo = todo.textContent.split(' · ')[1];
+  todo = todo.querySelector("span");
+  todo = todo.textContent.split(" · ")[1];
 
   // Creating elements
   let editField = document.createElement("input");
@@ -121,82 +121,87 @@ let returnEdit = (id) => {
   let discardButton = document.createElement("button");
 
   // Setting attributes to elements
-  editField.setAttribute('value',todo);
-  saveButton.textContent = 'Save';
-  saveButton.setAttribute('onclick',`handleSave(${id})`);
-  discardButton.textContent = 'Discard';
-  discardButton.setAttribute('onclick',`handleDiscard(${id},${todo})`);
+  editField.setAttribute("value", todo);
+  saveButton.textContent = "Save";
+  saveButton.setAttribute("onclick", `handleSave(${id})`);
+  discardButton.textContent = "Discard";
+  discardButton.setAttribute("onclick", `handleDiscard(${id},${todo})`);
 
   // Returning elements as members of a list
-  return [editField, saveButton, discardButton]
+  return [editField, saveButton, discardButton];
 };
 
 // Function to edit a todo
 const editTodo = (id) => {
   // Getting updated todo text
   let newTodo = document.getElementById(id);
-  newTodo = newTodo.querySelector('input')
+  newTodo = newTodo.querySelector("input");
   newTodo = newTodo.value;
-
-  // Setting the new todo in the locaStorage;
-  let todos = localStorage.getItem("todos");
-  todos = todos.split(todoSep);
-  console.log()
-  console.log(`Todo before edit     ${todos}`)
-  todos = todos.map(todo => {
-    console.log(todo.split(countSep))
-    if(todo.split(countSep)[0] == id){
-      console.log(`inside todo ${id}  ${newTodo}`)
-      return id+countSep+newTodo;
-    }
-    return todo
-  })
-  console.log(`Todo after edit     ${todos}`)
-  todos = todos.join(todoSep);
-  localStorage.setItem('todos', todos)
-  // Return todo in the end for further use
-  return newTodo;
-}
+  if (isAlphaNum(newTodo)) {
+    // Setting the new todo in the locaStorage;
+    let todos = localStorage.getItem("todos");
+    todos = todos.split(todoSep);
+    console.log();
+    console.log(`Todo before edit     ${todos}`);
+    todos = todos.map((todo) => {
+      console.log(todo.split(countSep));
+      if (todo.split(countSep)[0] == id) {
+        console.log(`inside todo ${id}  ${newTodo}`);
+        return id + countSep + newTodo;
+      }
+      return todo;
+    });
+    console.log(`Todo after edit     ${todos}`);
+    todos = todos.join(todoSep);
+    localStorage.setItem("todos", todos);
+    // Return todo in the end for further use
+    return newTodo;
+  } else {
+    return false;
+  }
+};
 
 // Function to handle when edit button is clicked
-const handleEdit = (id) =>{
+const handleEdit = (id) => {
   // Getting todo card and edit card
   let todoCard = document.getElementById(id);
   let EditCard = returnEdit(id);
-  
+
   // Removing the todo card and adding edit card
-  todoCard.innerHTML = '';
+  todoCard.innerHTML = "";
   todoCard.appendChild(EditCard[0]);
   todoCard.appendChild(EditCard[1]);
   todoCard.appendChild(EditCard[2]);
-}
-
+};
 
 // Function to handle when save is clicked on edit
-const handleSave = (id) =>{
+const handleSave = (id) => {
   // Edit todo and save it to local storage and get the new todo
   const todoString = editTodo(id);
-
-  // Creating new todo and replacing the edit card with the todocard
-  const todoCard = createTodo(id+countSep+todoString);
-  let todoCardDOM = document.getElementById(id);
-  editToTodo(todoCardDOM, todoCard);
-}
+  if (!todoString) {
+    alert("enter a valid todo with only alphabets and numbers");
+  } else {
+    // Creating new todo and replacing the edit card with the todocard
+    const todoCard = createTodo(id + countSep + todoString);
+    let todoCardDOM = document.getElementById(id);
+    editToTodo(todoCardDOM, todoCard);
+  }
+};
 
 // Function to handle discardButton
-const handleDiscard = (n,s) =>{
+const handleDiscard = (n, s) => {
   // Get todo Card and edit card
-  let todoCard = createTodo(n+countSep+s);
+  let todoCard = createTodo(n + countSep + s);
   let todoCardDom = document.getElementById(n);
   editToTodo(todoCardDom, todoCard);
-}
+};
 
 // Function to replace edit card with the give todo card
-const editToTodo = (edit, todo)=>{
-  edit.innerHTML = '';
-  todoCardArray = todo.querySelectorAll('*');
+const editToTodo = (edit, todo) => {
+  edit.innerHTML = "";
+  todoCardArray = todo.querySelectorAll("*");
   edit.appendChild(todoCardArray[0]);
   edit.appendChild(todoCardArray[1]);
   edit.appendChild(todoCardArray[2]);
   edit.appendChild(todoCardArray[3]);
-}
+};
