@@ -15,6 +15,12 @@
     translate: -50% -50%;
     background:linear-gradient(to bottom right,rgba(14, 130, 169, 0.3),rgb(14, 130, 169,0.5)) ; /* Black w/opacity/see-through */
     border-radius:15px;
+    box-shadow: 0px 0px 30px lightblue;
+    transition: box-shadow 1s;
+}
+
+.mainCard:hover{
+    box-shadow: 0px 0px 35px 10px lightblue;
 }
 
 body{
@@ -56,10 +62,6 @@ body{
     overflow: scroll;
 }
 
-::-webkit-scrollbar-thumb{
-    color: #ffffff;
-}
-
 .inputDiv{
     position:relative;
     display: flex;
@@ -97,9 +99,57 @@ body{
     color:white;
     font-size: 30px;
     transition: background-color 0.4s;
+    cursor:pointer;
 }
 
 .addButton:hover{
     background-color: white;
     color:rgb(18, 73, 255);
+}
+
+.titleDiv{
+    cursor:pointer;
+}
+
+.todoDiv{
+    margin:3px;
+    background-color:rgb(14, 130, 169,0.3);
+    border-radius:15px;
+    min-height: 50px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    padding: 5px 10px;
+    justify-content: space-between;
+}
+
+.todoSpan{
+    font-size: larger;
+    overflow:hidden;
+
+}
+.buttonImg{
+    width:30px;
+    height:30px;
+    margin:-4px;
+}
+.buttonContainer{
+    display: flex;
+    height:50px;
+    align-items: center;
+}
+
+.todoButton{
+    border:none;
+    cursor:pointer;
+    background-color: rgba(14, 130, 169, 0);
+    position:relative
+}
+
+.todoEditButton{
+
+}
+
+.todoDeleteButton{
+
 }

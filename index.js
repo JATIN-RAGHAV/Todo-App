@@ -82,26 +82,44 @@ const createTodo = (s) => {
   const todo = todoC.split(completedSep)[0];
   let containerDiv = document.createElement("div");
   let spanEle = document.createElement("span");
-  let completedCheckbox = document.createElement("input");
+  let completedCheckbox = document.createElement("button");
   let editButton = document.createElement("button");
   let deleteButton = document.createElement("button");
+  let buttonContainerDiv = document.createElement('div');
+  let checkedImg = document.createElement('img');
+  let editImg = document.createElement('img');
+  let deleteImg = document.createElement('img');
   // Setting the attributes and textContext
   spanEle.textContent = count + " · " + todo
-  completedCheckbox.setAttribute("type", "checkbox");
-  editButton.textContent = "Edit";
+  spanEle.setAttribute('class','todoSpan')
+  checkedImg.setAttribute('src', 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Eo_circle_light-blue_checkmark.svg/1200px-Eo_circle_light-blue_checkmark.svg.png')
+  checkedImg.setAttribute('class','buttonImg')
+  editImg.setAttribute('src','https://cdn-icons-png.freepik.com/512/10336/10336582.png')
+  editImg.setAttribute('class','buttonImg')
+  deleteImg.setAttribute('src','https://cdn-icons-png.freepik.com/512/4682/4682650.png')
+  deleteImg.setAttribute('class','buttonImg')
+  completedCheckbox.appendChild(checkedImg)
+  completedCheckbox.setAttribute('class', 'todoButton')
+  completedCheckbox.setAttribute('onclick',`setCompleted(${count})`)
   editButton.setAttribute("onclick", `handleEdit(${count})`);
-  deleteButton.textContent = "Delete";
+  editButton.setAttribute('class', 'todoButton')
+  editButton.appendChild(editImg);
   deleteButton.setAttribute("onclick", `deleteTodo(${count})`);
+  deleteButton.setAttribute('class','todoButton');
+  deleteButton.appendChild(deleteImg)
   containerDiv.setAttribute("id", count);
+  containerDiv.setAttribute('class','todoDiv')
+  buttonContainerDiv.setAttribute('class','buttonContainer')
   // Adding event listener to the completed checkbox
   completedCheckbox.addEventListener('change',() => {
     return setCompleted(count);
   });
   // Appending the child elements to container
   containerDiv.appendChild(spanEle);
-  containerDiv.appendChild(completedCheckbox);
-  containerDiv.appendChild(editButton);
-  containerDiv.appendChild(deleteButton);
+  buttonContainerDiv.appendChild(completedCheckbox);
+  buttonContainerDiv.appendChild(editButton);
+  buttonContainerDiv.appendChild(deleteButton);
+  containerDiv.appendChild(buttonContainerDiv)
   return containerDiv;
 };
 
@@ -214,8 +232,6 @@ const editToTodo = (edit, todo) => {
   todoCardArray = todo.querySelectorAll("*");
   edit.appendChild(todoCardArray[0]);
   edit.appendChild(todoCardArray[1]);
-  edit.appendChild(todoCardArray[2]);
-  edit.appendChild(todoCardArray[3]);
 };
 
 // Function to add a todo to completed given it's id
