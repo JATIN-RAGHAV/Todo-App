@@ -60,13 +60,21 @@ body{
     color: #ffffff;
 }
 
-.input{
+.inputDiv{
+    position:relative;
+    display: flex;
+    align-items: center;
+}
+
+.input {
+    all: unset;
     text-decoration: none;
-    width: 270px;
+    width: 330px;
     background-color: rgba(0,0,0,0.4);
-    height:40px;
-    color: blue;
-    border:none;
+    height: 40px;
+    color: white;
+    font-size: 17px;
+    border: none;
     border-radius: 20px;
     text-indent: 15px;
     transition: background-color 0.2s;
@@ -74,14 +82,24 @@ body{
     position: relative;
 }
 
-.input:hover{
+.input:hover {
     background-color: rgba(0,0,0,0.2);
 }
 
-.input::after{
-    content: 'aasdfasfd';
+.addButton{
+    position: absolute;
+    right:0px;
+    border-radius: 20px;
     width: 40px;
     height: 40px;
-    background-color: blue;
-    z-index: 100;
+    background-color: rgb(18, 73, 255);;
+    border:none;
+    color:white;
+    font-size: 30px;
+    transition: background-color 0.4s;
+}
+
+.addButton:hover{
+    background-color: white;
+    color:rgb(18, 73, 255);
 }
