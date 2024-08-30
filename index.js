@@ -277,11 +277,17 @@ const returnTodoCompleted = (id, text) =>{
   let containerDiv = document.createElement('div');
   let spanEle = document.createElement('span');
   let button = document.createElement('button');
+  let deleteImg = document.createElement('img');
   // Adding required attributes
+  deleteImg.setAttribute('class','buttonImg')
+  deleteImg.setAttribute('src','https://cdn-icons-png.freepik.com/512/4682/4682650.png')
   spanEle.textContent = id + ' · ' + text;
-  button.textContent = 'Delete';
+  spanEle.setAttribute('class','todoSpan')
+  button.setAttribute('class','todoButton');
+  button.appendChild(deleteImg)
   button.setAttribute('onclick', `deleteCompletedTodo(${id})`);
   containerDiv.setAttribute('id', id);
+  containerDiv.setAttribute('class','todoDiv')
   containerDiv.appendChild(spanEle);
   containerDiv.appendChild(button);
   return containerDiv;
