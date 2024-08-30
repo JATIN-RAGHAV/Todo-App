@@ -102,13 +102,24 @@ body{
     cursor:pointer;
 }
 
+.titleH{
+    position:relative;
+    top:0;
+    transition: top 0.5s;
+}
+
 .addButton:hover{
     background-color: white;
-    color:rgb(18, 73, 255);
+    color:rgb(84, 124, 255);
 }
 
 .titleDiv{
     cursor:pointer;
+    position:relative;
+}
+
+.titleDiv:hover  .titleH{
+    top:-10px;
 }
 
 .todoDiv{
@@ -121,6 +132,13 @@ body{
     align-items: center;
     padding: 5px 10px;
     justify-content: space-between;
+    position: relative;
+    top:0;
+    transition: top 0.3s;
+}
+
+.todoDiv:hover{
+    top:-5px
 }
 
 .todoSpan{
@@ -132,7 +150,15 @@ body{
     width:30px;
     height:30px;
     margin:-4px;
+    transition: width 0.3s;
+    transition: height 0.3s;
 }
+
+.buttonImg:hover{
+    width:40px;
+    height:40px;
+}
+
 .buttonContainer{
     display: flex;
     height:50px;
