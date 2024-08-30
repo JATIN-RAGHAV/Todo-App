@@ -111,10 +111,7 @@ const deleteTodo = (n) => {
   let container = document.querySelector("#todos");
   container.removeChild(todo);
   // Deleting todo from localStorage
-  let todos = localStorage.getItem("todos").split(todoSep);
-  todos = todos.filter((todo) => todo.split(countSep)[0] != n);
-  todos = todos.join(todoSep);
-  localStorage.setItem("todos", todos);
+  deleteFromLocal(n);
 };
 
 // Event listener for the input field to add todo on pressing enter
@@ -264,12 +261,15 @@ const returnTodoCompleted = (id, text) =>{
 
 // Function to deleted todos from completed section
 const deleteCompletedTodo = (id) =>{
+  // Deleting todo from DOM
   let completedTodo = document.getElementById(id);
   let parentEle = completedTodo.parentElement;
   parentEle.removeChild(completedTodo);
   if(parentEle.childElementCount == 0){
     parentEle.parentElement.setAttribute('style','display:none;')
   }
+  // Deleting todo from local Storage
+  deleteFromLocal(id);
 }
 
 // Function to set todo to completed in local storage
@@ -284,4 +284,12 @@ const setCompletedStorage = (id) =>{
   })
   todos = todos.join(todoSep)
   localStorage.setItem('todos', todos);
+}
+
+// Function to delete todo from local storage
+const deleteFromLocal = (id) =>{
+  let todos = localStorage.getItem("todos").split(todoSep);
+  todos = todos.filter((todo) => todo.split(countSep)[0] != id);
+  todos = todos.join(todoSep);
+  localStorage.setItem("todos", todos);
 }
