@@ -1,5 +1,6 @@
 const todoSep = "°·‚°·‚";
 const countSep = "°°··‚‚";
+const completedSep = "⁄€‹⁄€‹";
 
 // Function to add todo from input field
 const addTodo = () => {
@@ -14,16 +15,16 @@ const addTodo = () => {
       localStorage.setItem("todoCount", count);
       localStorage.setItem(
         "todos",
-        todos + todoSep + count + countSep + inputEle.value
+        todos + todoSep + count + countSep + inputEle.value + completedSep + 'N'
       );
     } else {
       count = 1;
       localStorage.setItem("todoCount", "1");
-      localStorage.setItem("todos", count + countSep + inputEle.value);
+      localStorage.setItem("todos", count + countSep + inputEle.value + completedSep + 'N');
     }
     // Append the newly created todo to the list
     let todosContainer = document.querySelector("#todos");
-    let newTodo = createTodo(count + countSep + inputEle.value);
+    let newTodo = createTodo(count + countSep + inputEle.value, 'N');
     todosContainer.appendChild(newTodo);
   } else {
     alert("enter a valid todo with only alphabets and numbers");
@@ -53,12 +54,22 @@ const renderTodos = () => {
   // Getting the todos from local Storage
   let todos = localStorage.getItem("todos");
   if (todos) {
+    console.log(todos)
     todos = todos.split(todoSep);
     let todosDiv = document.querySelector("#todos");
+    let completedTodosDiv = document.querySelector('#todosCompleted');
     // Going through every todo and appending them to the todos div
     for (let i = 0; i < todos.length; i++) {
-      let todo = createTodo(todos[i]);
-      todosDiv.appendChild(todo);
+      let split = todos[i].split(completedSep);
+      if(split[1] == 'N'){
+        let todo = createTodo(split[0]);
+        todosDiv.appendChild(todo);
+      }else{
+        console.log(split)
+        let todo = returnTodoCompleted(...split[0].split(countSep))
+        completedTodosDiv.appendChild(todo);
+        completedTodosDiv.parentElement.setAttribute('style', 'display:solid')
+      }
     }
   }
 };
@@ -66,14 +77,15 @@ const renderTodos = () => {
 // Function to create a todo
 const createTodo = (s) => {
   // Creating the elements that will be used
-  const [count, todo] = s.split(countSep);
+  const [count, todoC] = s.split(countSep);
+  const todo = todoC.split(completedSep)[0];
   let containerDiv = document.createElement("div");
   let spanEle = document.createElement("span");
   let completedCheckbox = document.createElement("input");
   let editButton = document.createElement("button");
   let deleteButton = document.createElement("button");
   // Setting the attributes and textContext
-  spanEle.textContent = count + " · " + todo;
+  spanEle.textContent = count + " · " + todo
   completedCheckbox.setAttribute("type", "checkbox");
   editButton.textContent = "Edit";
   editButton.setAttribute("onclick", `handleEdit(${count})`);
@@ -146,17 +158,14 @@ const editTodo = (id) => {
     // Setting the new todo in the locaStorage;
     let todos = localStorage.getItem("todos");
     todos = todos.split(todoSep);
-    console.log();
-    console.log(`Todo before edit     ${todos}`);
     todos = todos.map((todo) => {
       console.log(todo.split(countSep));
       if (todo.split(countSep)[0] == id) {
         console.log(`inside todo ${id}  ${newTodo}`);
-        return id + countSep + newTodo;
+        return id + countSep + newTodo + completedSep + 'N';
       }
       return todo;
     });
-    console.log(`Todo after edit     ${todos}`);
     todos = todos.join(todoSep);
     localStorage.setItem("todos", todos);
     // Return todo in the end for further use
@@ -215,11 +224,11 @@ const editToTodo = (edit, todo) => {
 const setCompleted = (id) =>{
   // Get todo text and remove todo card from DOM
   const todoText = getTodo(id);
-  const completedTodo = todoCompleted(id, todoText);
+  const completedTodo = returnTodoCompleted(id, todoText);
+  setCompletedStorage(id);
   // Checking if completedTodo has some elements or not and changin its display approprirately
   let completedTodos = document.querySelector('#todosCompleted');
   completedTodos.prepend(completedTodo);
-  console.log('from out here')
   if(completedTodos.childElementCount == 1){
     let container = document.querySelector('#todosCompletedContainer')
     container.setAttribute('style', 'display:solid')
@@ -238,7 +247,7 @@ const getTodo = (id) =>{
 }
 
 // Function to add a todo to completed div given its id and text
-const todoCompleted = (id, text) =>{
+const returnTodoCompleted = (id, text) =>{
   // Creating required elements
   let containerDiv = document.createElement('div');
   let spanEle = document.createElement('span');
@@ -261,4 +270,18 @@ const deleteCompletedTodo = (id) =>{
   if(parentEle.childElementCount == 0){
     parentEle.parentElement.setAttribute('style','display:none;')
   }
+}
+
+// Function to set todo to completed in local storage
+const setCompletedStorage = (id) =>{
+  let todos = localStorage.getItem('todos');
+  todos = todos.split(todoSep);
+  todos = todos.map(todo =>{
+    if(todo.split(countSep)[0] == id){
+      return todo.split(completedSep)[0] + completedSep + 'Y';
+    }
+    return todo
+  })
+  todos = todos.join(todoSep)
+  localStorage.setItem('todos', todos);
 }
