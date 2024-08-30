@@ -80,6 +80,10 @@ const createTodo = (s) => {
   deleteButton.textContent = "Delete";
   deleteButton.setAttribute("onclick", `deleteTodo(${count})`);
   containerDiv.setAttribute("id", count);
+  // Adding event listener to the completed checkbox
+  completedCheckbox.addEventListener('change',() => {
+    return setCompleted(count);
+  });
   // Appending the child elements to container
   containerDiv.appendChild(spanEle);
   containerDiv.appendChild(completedCheckbox);
@@ -206,3 +210,43 @@ const editToTodo = (edit, todo) => {
   edit.appendChild(todoCardArray[2]);
   edit.appendChild(todoCardArray[3]);
 };
+
+// Function to add a todo to completed given it's id
+const setCompleted = (id) =>{
+  // Get todo text and remove todo card from DOM
+  const todoText = getTodo(id);
+  const completedTodo = todoCompleted(id, todoText);
+  // Checking if completedTodo has some elements or not and changin its display approprirately
+  let completedTodos = document.querySelector('#todosCompleted');
+  completedTodos.prepend(completedTodo);
+  console.log('from out here')
+  if(completedTodos.childElementCount == 1){
+    let container = document.querySelector('#todosCompletedContainer')
+    container.setAttribute('style', 'display:solid')
+    console.log(container)
+  }
+}
+
+// Function to remove a todo given it's id and return the todo text
+const getTodo = (id) =>{
+  // Get the todo card and return only it's inner text and remove it from DOM
+  let todo = document.getElementById(id);
+  let todoText = todo.querySelector('span')
+  todoText = todoText.textContent.split(' · ')[1];
+  todo.parentElement.removeChild(todo);
+  return todoText;
+}
+
+// Function to add a todo to completed div given its id and text
+const todoCompleted = (id, text) =>{
+  // Creating required elements
+  let containerDiv = document.createElement('div');
+  let spanEle = document.createElement('span');
+  let button = document.createElement('button');
+  // Adding required attributes
+  spanEle.textContent = id + ' · ' + text;
+  button.textContent = 'Delete';
+  containerDiv.appendChild(spanEle);
+  containerDiv.appendChild(button);
+  return containerDiv;
+}
