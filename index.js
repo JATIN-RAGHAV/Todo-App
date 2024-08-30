@@ -39,7 +39,8 @@ const isAlphaNum = (s) => {
     if (
       !(charCode > 47 && charCode < 58) &&
       !(charCode > 96 && charCode < 123) &&
-      !(charCode > 64 && charCode < 91)
+      !(charCode > 64 && charCode < 91) &&
+      !(charCode == 32)
     ) {
       return false;
     }
