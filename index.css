@@ -146,10 +146,18 @@ body{
     position:relative
 }
 
-.todoEditButton{
-
-}
-
-.todoDeleteButton{
-
+.editField{
+    all: unset;
+    text-decoration: none;
+    width: 250px;
+    background-color: rgba(0,0,0,0.4);
+    height: 50px;
+    color: white;
+    font-size: larger;
+    border: none;
+    border-radius: 20px;
+    text-indent: 15px;
+    transition: background-color 0.2s;
+    border-width: 0px;
+    position: relative;
 }

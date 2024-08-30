@@ -152,16 +152,28 @@ let returnEdit = (id) => {
   let editField = document.createElement("input");
   let saveButton = document.createElement("button");
   let discardButton = document.createElement("button");
+  let buttonContainer = document.createElement('div');
+  let saveImg = document.createElement('img');
+  let discardImg = document.createElement('img');
 
   // Setting attributes to elements
+  saveImg.setAttribute('src','https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Eo_circle_light-blue_checkmark.svg/1200px-Eo_circle_light-blue_checkmark.svg.png');
+  saveImg.setAttribute('class','buttonImg');
+  discardImg.setAttribute('class','buttonImg');
+  discardImg.setAttribute('src','https://cdn-icons-png.freepik.com/512/4682/4682650.png')
   editField.setAttribute("value", todo);
-  saveButton.textContent = "Save";
+  editField.setAttribute('class','editField')
   saveButton.setAttribute("onclick", `handleSave(${id})`);
-  discardButton.textContent = "Discard";
+  saveButton.setAttribute('class','todoButton')
+  saveButton.appendChild(saveImg)
+  discardButton.setAttribute('class','todoButton')
   discardButton.setAttribute("onclick", `handleDiscard(${id},"${todo}")`);
+  discardButton.appendChild(discardImg);
+  buttonContainer.appendChild(saveButton);
+  buttonContainer.appendChild(discardButton);
 
   // Returning elements as members of a list
-  return [editField, saveButton, discardButton];
+  return [editField, buttonContainer];
 };
 
 // Function to edit a todo
@@ -201,7 +213,6 @@ const handleEdit = (id) => {
   todoCard.innerHTML = "";
   todoCard.appendChild(EditCard[0]);
   todoCard.appendChild(EditCard[1]);
-  todoCard.appendChild(EditCard[2]);
 };
 
 // Function to handle when save is clicked on edit
