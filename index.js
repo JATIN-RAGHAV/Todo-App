@@ -35,6 +35,7 @@ const addTodo = () => {
 
 // Function to check if a string is alphanumeric or not
 const isAlphaNum = (s) => {
+  if(s.length == 0) return false
   for (c of s) {
     let charCode = c.charCodeAt(0);
     if (
