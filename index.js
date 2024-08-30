@@ -256,5 +256,9 @@ const todoCompleted = (id, text) =>{
 // Function to deleted todos from completed section
 const deleteCompletedTodo = (id) =>{
   let completedTodo = document.getElementById(id);
-  completedTodo.parentElement.removeChild(completedTodo);
+  let parentEle = completedTodo.parentElement;
+  parentEle.removeChild(completedTodo);
+  if(parentEle.childElementCount == 0){
+    parentEle.parentElement.setAttribute('style','display:none;')
+  }
 }
