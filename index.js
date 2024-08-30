@@ -246,7 +246,15 @@ const todoCompleted = (id, text) =>{
   // Adding required attributes
   spanEle.textContent = id + ' · ' + text;
   button.textContent = 'Delete';
+  button.setAttribute('onclick', `deleteCompletedTodo(${id})`);
+  containerDiv.setAttribute('id', id);
   containerDiv.appendChild(spanEle);
   containerDiv.appendChild(button);
   return containerDiv;
+}
+
+// Function to deleted todos from completed section
+const deleteCompletedTodo = (id) =>{
+  let completedTodo = document.getElementById(id);
+  completedTodo.parentElement.removeChild(completedTodo);
 }
