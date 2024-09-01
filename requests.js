@@ -15,6 +15,18 @@ const getTodos = () =>{
     })
 }
 
-console.log('hi')
-getTodos()
+const addTodo = (todo) =>{
+    return fetch('localhost:3000/todo',{
+        method:'POST',
+        headers:{
+            "content-type":"application/JSON"
+        },
+        body:JSON.stringify({title:todo})
+    })
+}
+
+
+
+addTodo('this is a new todo')
+    .then(response => response.json())
     .then(data => console.log(data))
